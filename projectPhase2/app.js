@@ -5,11 +5,18 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/expressError.js");
+
 const session = require("express-session");
 const flash = require("connect-flash");
 
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const User = require("./models/user.js");
+
+
+const listingRouter = require("./routes/listing.js");
+const reviewRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
@@ -54,15 +61,40 @@ app.get("/", (req,res) => {
 app.use(session(sessionOptions));
 app.use(flash());
 
+//to implement passport session is required
+//A middleware that initializes passport
+app.use(passport.initialize());
+//A web application needs the ability to identify users as they browse from page to page.this series of reqs & resps, each associated with the same user, is known as a session
+app.use(passport.session());
+//authenticate() Generates a function that is used in Passport's LocalStrategy
+passport.use(new localStrategy(User.authenticate()));
+//serializeUser() Generates a function that is used by Passport to serialize(user related info saved in session) users into the session
+passport.serializeUser(User.serializeUser());
+//deserializeUser() Generates a function that is used by Passport to deserialize users into the session
+passport.deserializeUser(User.deserializeUser());
+
+
 app.use((req,res,next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
-    console.log(res.locals.success);
+    res.locals.currUser = req.user;
+    // console.log(res.locals.success);
     next();
 });
+
+// app.use("/demouser",async(req,res) => {
+//    let fakeUser = new User({
+//     email : "iphat05@gmail.com",
+//     username : "iphat",//in schema only email is define but passportLocalMongoose add username automatically
+//   });
+//    //register(user, password, callback) Convenience method to register a new user instance with a given password.Checks if username is unique
+//    const registeredUser = await User.register(fakeUser,"hello123");
+//    res.send(registeredUser);
+// });
 //use flash before the routes required
-app.use("/listings",listings);
-app.use("/listings/:id/reviews",reviews);
+app.use("/listings",listingRouter);
+app.use("/listings/:id/reviews",reviewRouter);
+app.use("/",userRouter);
 
 
 //install - npm i ejs-mate - It helps in creating templete 

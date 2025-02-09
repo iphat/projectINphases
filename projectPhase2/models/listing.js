@@ -26,6 +26,10 @@ const listingSchema = new Schema({
       ref : "Review",
     },
   ],
+  owner : {
+    type: Schema.Types.ObjectId,
+    ref: "User", // Reference to the User model becz listing owner should be registerd user
+  },
 });
 //reviews are deleted when a listing is delete by using this code 
 listingSchema.post("findOneAndDelete",async(listing) => {
