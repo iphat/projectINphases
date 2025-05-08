@@ -25,6 +25,7 @@ router.post("/",validateReview,isLoggedIn, wrapAsync(async(req,res) => {
    res.redirect(`/listings/${listing._id}`);
 }));
 //Reviews (Delete route)
+//here we delete the review from 'reviews' of db but still review are present in 'listings'. so they also need to be deleted
 router.delete("/:reviewId",isLoggedIn,isReviewAuthor,wrapAsync(async(req,res) => {
     let {id, reviewId} = req.params;
 
