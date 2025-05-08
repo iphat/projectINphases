@@ -28,7 +28,7 @@ router.post("/",validateReview,isLoggedIn, wrapAsync(async(req,res) => {
 router.delete("/:reviewId",isLoggedIn,isReviewAuthor,wrapAsync(async(req,res) => {
     let {id, reviewId} = req.params;
 
-    //$pull operator removes from an existing array all instances of a value or value that matche a specified condition
+    //$pull operator removes(delete) from an existing array all instances of a value or value that matche a specified condition
     await Listing.findByIdAndUpdate(id,{$pull: {reviews: reviewId}});
     await Review.findByIdAndDelete(reviewId);
 
