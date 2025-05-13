@@ -27,9 +27,9 @@ router.post("/",validateReview,isLoggedIn, wrapAsync(async(req,res) => {
 //Reviews (Delete route)
 router.delete("/:reviewId",isLoggedIn,isReviewAuthor,wrapAsync(async(req,res) => {
     let {id, reviewId} = req.params;
-    //$pull operator removes(delete) from an existing array all instances of a value or value that matche a specified condition
-    await Listing.findByIdAndUpdate(id,{$pull: {reviews: reviewId}});
-    await Review.findByIdAndDelete(reviewId);
+    //$pull mongoose operator → Removes the reviewId from the reviews array inside the document.
+    await Listing.findByIdAndUpdate(id,{$pull: {reviews: reviewId}});//removes the reference from listing
+    await Review.findByIdAndDelete(reviewId);//delete the actual review
 
     req.flash("success", "review deleted");
     res.redirect(`/listings/${id}`);
