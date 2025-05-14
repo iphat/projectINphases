@@ -31,7 +31,9 @@ const listingSchema = new Schema({
     ref: "User", // Reference to the User model becz listing owner should be registerd user
   },
 });
+
 //Post mongoose middleware - Runs after a database operation completes.(save,delete,update)
+//after the deletion of listing this post mongooose middleware is triggered and this delete the reviews of deleted listing
 //this code is used to delete the reviews of deleted listing 
 listingSchema.post("findOneAndDelete",async(listing) => {
   if(listing) {
