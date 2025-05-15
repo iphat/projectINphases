@@ -8,6 +8,7 @@ const {validateReview, isLoggedIn,isReviewAuthor} = require("../middleware.js");
 //Reviews (Post route)
 //2- for reviews
  //without server side validation we can send empty review from other source like hoppscotch or postman which will be saved directly in DB  but now empty review not saved from any source
+//child route id = "/"
 router.post("/",validateReview,isLoggedIn, wrapAsync(async(req,res) => {
     console.log(req.params.id);
    let listing = await Listing.findById(req.params.id);
