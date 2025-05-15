@@ -92,6 +92,7 @@ app.use((req,res,next) => {
 //    res.send(registeredUser);
 // });
 //use flash before the routes required
+//parents route = "/listings"  etc.
 app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
 app.use("/",userRouter);
