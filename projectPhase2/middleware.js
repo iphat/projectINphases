@@ -10,7 +10,7 @@ module.exports.isLoggedIn = (req,res,next) => {
     console.log(req.path,"...",req.originalUrl);
 
     // console.log(req.user);//we can either we are loggedin or not
-        //".isAuthenticated" check is user authenticated
+        //".isAuthenticated" is a passport method to check user is authenticated.
     //if user not authenticated then send flash msg & redirect to login page
     if(!req.isAuthenticated()){
         req.session.redirectUrl = req.originalUrl;
