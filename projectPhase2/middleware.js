@@ -9,7 +9,7 @@ module.exports.isLoggedIn = (req,res,next) => {
     //req.path => /new & req.originalUrl => /listings/new
     console.log(req.path,"...",req.originalUrl);
 
-    // console.log(req.user);//we can either we are loggedin or not
+    // console.log(req.user);//passport method used to check user login info.
         //".isAuthenticated" is a passport method to check user is authenticated.
     //if user not authenticated then send flash msg & redirect to login page
     if(!req.isAuthenticated()){
