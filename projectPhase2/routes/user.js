@@ -45,7 +45,7 @@ router.post("/login",saveRedirectUrl,passport.authenticate("local",{failureRedir
 
 //3-loggedout
 router.get("/logout", (req,res) => {
-  req.logout((err) => {
+  req.logout((err) => {//req.logout is a passport method which is used to Logs out a user and destroys the session.
     if(err) {
       return next(err);
     }
