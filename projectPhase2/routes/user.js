@@ -36,7 +36,7 @@ router.post("/signup", wrapAsync(async(req,res) => {
 router.get("/login", (req,res) => {
     res.render("users/login.ejs");
 });
- //Passport provides an authenticate() function, which is used as a      route middleware to authenticate requests.
+ //Passport provides an authenticate() function, which is used as a route middleware to authenticate requests.
 router.post("/login",saveRedirectUrl,passport.authenticate("local",{failureRedirect: '/login', failureFlash: true}), async(req,res) => {
     req.flash("success","welcome to wanderlust");
     let redirectUrl = res.locals.redirectUrl || "/listings";
